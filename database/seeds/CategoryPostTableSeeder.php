@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Faker\Generator as Faker;
+use App\Category;
+use App\Models\Post;
 
 class CategoryPostTableSeeder extends Seeder
 {
@@ -9,8 +12,16 @@ class CategoryPostTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Faker $faker)
     {
-        //
+        $id_users = Category::pluck('id')->toArray();
+
+        $posts = Post::all();
+
+
+        foreach ($posts as $post){
+            $post->categories()
+            ->sync($faker->randomElements($id_users, 2));
+        }
     }
 }
