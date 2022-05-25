@@ -15,7 +15,13 @@
                 <div class="col-4">
                     <h1>{{$element->name}}</h1>
 
-                    <img src="{{$element->img}}" alt="">
+                    <img src="{{$element->img}}" class="mb-3" alt="">
+
+                    <div class="button-wrapper mb-3">
+                        <a href="{{route("admin.categories.edit", $element )}}">
+                            <button class="btn btn-success">Modfica</button>
+                        </a>
+                    </div>
                 </div>
             @endforeach
         </div>

@@ -68,7 +68,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('admin.categories.edit', $category);
+        return view('admin.categories.edit', ['category' => $category]);
     }
 
     /**
@@ -78,9 +78,18 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $data = $request->all();
+
+        $category = new Category();
+
+        $category->name = $data['name'];
+        $category->img = $data['img'];
+
+        $category -> save();
+
+        return redirect()->route('admin.categories.show', $category)->with('message', "La categoria $category è stata modificata");
     }
 
     /**
