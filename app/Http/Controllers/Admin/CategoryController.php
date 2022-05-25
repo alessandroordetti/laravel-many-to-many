@@ -15,7 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        ('admin.categories.index');
+        $category = Category::all();
+        return view ('admin.categories.index', ['category' => $category]);
     }
 
     /**
@@ -36,7 +37,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $newCategory = new Category();
+
+        $newCategory->name = $data['name'];
+        $newCategory->img = $data['img'];
+
+        $newCategory -> save();
+
+        return redirect()->route('admin.categories.show', $newCategory);
     }
 
     /**
@@ -47,7 +57,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return view('admin.categories.create', $category);
+        return view('admin.categories.show', ['category' => $category]);
     }
 
     /**
@@ -56,9 +66,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit', $category);
     }
 
     /**
