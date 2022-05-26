@@ -20,7 +20,7 @@ class PostsTableSeeder extends Seeder
             $newPost->author= $faker->name();
             $newPost->title= $faker->sentence(8);
             $newPost->image= "https://picsum.photos/id/$i/350/500";
-            $newPost->description= $faker->text(50);
+            $newPost->description = $faker->text(50);
             $newPost->date= $faker->date('Y-m-d');
             $newPost->save();
         }

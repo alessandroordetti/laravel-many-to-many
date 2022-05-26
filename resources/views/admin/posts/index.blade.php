@@ -15,8 +15,8 @@
                     <th>Titolo</th>
                     <th>Autore</th>
                     <th>Categories</th>
-                    <th>descrizione</th>
-                    <th>data</th>
+                    <th>Descrizione</th>
+                    <th>Data</th>
                     <th>
                         <a href="{{route('admin.posts.create')}}">
                             <button class="btn btn-warning">
@@ -53,7 +53,7 @@
                         <form action="{{route('admin.posts.destroy', $post)}}" method="POST" class="post-form-destroyer" post-title="{{$post->title}}">
                             @csrf
                             @method('DELETE')
-                            <button type="submit"  class="btn btn-danger">cancella</button>
+                            <button type="submit"  class="btn btn-danger">Cancella</button>
                         </form>
                     </td>
                 </tr>

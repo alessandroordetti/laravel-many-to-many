@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Post;
 
+use App\Category;
+
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +32,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::all();
+        return view('admin.posts.create', compact('categories'));
     }
 
     /**
@@ -42,6 +45,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $data['user_id'] = Auth::user()->id;
         $newPost = new Post();
         $newPost->author = $data['author'];
         $newPost->title = $data['title'];
@@ -49,6 +53,9 @@ class PostController extends Controller
         $newPost->description = $data['description'];
         $newPost->date = $data['date'];
         $newPost->save();
+
+        $newPost->categories()->attach($data['category']);
+
         return redirect()->route('admin.posts.show', $newPost);
     }
 
@@ -71,7 +78,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('admin.posts.edit', ['post' => $post]);
+        $categories= Category::all();
+        return view('admin.posts.edit', ['post' => $post, 'categories' => $categories]);
     }
 
     /**
@@ -86,6 +94,7 @@ class PostController extends Controller
         $data = $request->all();
         
         $post->author = $data['author'];
+        $post->categories()->sync($data['categories']);
         $post->title = $data['title'];
         $post->image = $data['image'];
         $post->description = $data['description'];
