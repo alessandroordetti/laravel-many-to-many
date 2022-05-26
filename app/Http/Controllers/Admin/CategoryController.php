@@ -82,8 +82,6 @@ class CategoryController extends Controller
     {
         $data = $request->all();
 
-        $category = new Category();
-
         $category->name = $data['name'];
         $category->img = $data['img'];
 
@@ -98,8 +96,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('admin.categories.index', $category->id)->with('message', 'La categoria è stata cancellata con successo');
     }
 }

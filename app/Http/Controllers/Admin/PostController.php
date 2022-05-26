@@ -20,7 +20,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();
-        return view ('admin.index', ['posts' => $posts]);
+        return view ('admin.posts.index', compact('posts'));
     }
 
     /**
@@ -30,7 +30,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.posts.create');
     }
 
     /**
@@ -41,7 +41,15 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $data = $request->all();
+        $newPost = new Post();
+        $newPost->author = $data['author'];
+        $newPost->title = $data['title'];
+        $newPost->image = $data['image'];
+        $newPost->description = $data['description'];
+        $newPost->date = $data['date'];
+        $newPost->save();
+        return redirect()->route('admin.posts.show', $newPost);
     }
 
     /**
@@ -61,9 +69,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        return view('admin.posts.edit', ['post' => $post]);
     }
 
     /**
@@ -73,9 +81,18 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $data = $request->all();
+        
+        $post->author = $data['author'];
+        $post->title = $data['title'];
+        $post->image = $data['image'];
+        $post->description = $data['description'];
+        $post->date = $data['date'];
+        $post->save();
+
+        return redirect()->route('admin.posts.index', $post->id )->with('message', 'Post modificato correttamente');
     }
 
     /**
@@ -84,8 +101,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        {
+            $post->delete();
+            return redirect()->route('admin.posts.index')->with('message', 'Post eliminato') ;
+        }
     }
 }

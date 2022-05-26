@@ -21,6 +21,13 @@
                         <a href="{{route("admin.categories.edit", $element )}}">
                             <button class="btn btn-success">Modfica</button>
                         </a>
+
+                    <form action="{{route("admin.categories.destroy", $element->id )}}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Cancella</button>
+                    </form>
+
                     </div>
                 </div>
             @endforeach
